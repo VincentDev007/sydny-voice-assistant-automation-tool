@@ -3,41 +3,41 @@ SYDNY Backend API
 FastAPI application for voice assistant system
 """
 
-from database import engine, Base
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from database import engine, Base
+import models
+from routes import platform, tasks, system
 
 # Create FastAPI app instance
 app = FastAPI(
     title="SYDNY API",
     description="Backend API for SYDNY voice assistant",
-    version="1.0.0"
+    version="2.0.0"
 )
 
-# Configure CORS (Cross-Origin Resource Sharing)
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:1420", "tauri://localhost"],  # Tauri's URLs
+    allow_origins=["http://localhost:1420", "tauri://localhost"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE) red flag alert!!
-    allow_headers=["*"],  # Allow all headers red flag alert!!
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Create database tables on startup
 @app.on_event("startup")
 def startup_event():
-    """
-    Creates all database tables when the app starts
-    """
     Base.metadata.create_all(bind=engine)
 
-# Health check api endpoint
+# Connect routers
+app.include_router(platform.router, prefix="/api")
+app.include_router(tasks.router, prefix="/api")
+app.include_router(system.router, prefix="/api")
+
+# General health endpoints
 @app.get("/")
 async def root():
-    """
-    Root endpoint - simple health check
-    Returns basic API information
-    """
     return {
         "status": "online",
         "message": "SYDNY API is running",
@@ -46,10 +46,6 @@ async def root():
 
 @app.get("/api/health")
 async def health_check():
-    """
-    Dedicated health check endpoint
-    Used by frontend to verify backend is reachable
-    """
     return {
         "status": "healthy",
         "service": "sydny-backend"
