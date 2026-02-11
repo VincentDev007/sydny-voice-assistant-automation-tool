@@ -7,7 +7,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 import models
-from routes import platform, tasks, system
+from routes import platform, tasks, system, voice   # ← add voice
+
 
 # Create FastAPI app instance
 app = FastAPI(
@@ -34,6 +35,7 @@ def startup_event():
 app.include_router(platform.router, prefix="/api")
 app.include_router(tasks.router, prefix="/api")
 app.include_router(system.router, prefix="/api")
+app.include_router(voice.router, prefix="/api")    # ← add this
 
 # General health endpoints
 @app.get("/")
