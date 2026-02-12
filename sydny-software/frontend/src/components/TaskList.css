@@ -1,0 +1,38 @@
+.task-list {
+  width: 100%;
+  max-width: 500px;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #646464;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  color: #ffffff;
+}
+
+.task-item-completed {
+  color: #888888;
+  text-decoration: line-through;
+}
+
+.task-priority-high {
+  border-left: 3px solid #ff0000;
+  padding-left: 8px;
+}
+
+.task-priority-normal {
+  border-left: 3px solid #646464;
+  padding-left: 8px;
+}
+
+.task-priority-low {
+  border-left: 3px solid #444444;
+  padding-left: 8px;
+}

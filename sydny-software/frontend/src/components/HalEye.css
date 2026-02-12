@@ -1,0 +1,73 @@
+.hal-eye {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Outer ring */
+.hal-eye-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #969696;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+}
+
+/* Glow layer */
+.hal-eye-glow {
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 100, 0, 1) 0%, rgba(255, 0, 0, 0.8) 30%, rgba(150, 0, 0, 0.5) 60%, transparent 100%);
+}
+
+/* Bright core */
+.hal-eye-core {
+  width: 20%;
+  height: 20%;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 200, 0.8);
+}
+
+/* Idle — steady glow */
+.hal-eye-idle .hal-eye-glow {
+  animation: idle-glow 3s ease-in-out infinite;
+}
+
+/* Speaking — fast pulse */
+.hal-eye-speaking .hal-eye-glow {
+  animation: speak-pulse 0.8s ease-in-out infinite;
+}
+
+/* Listening — subtle breathe */
+.hal-eye-listening .hal-eye-glow {
+  animation: listen-breathe 2s ease-in-out infinite;
+}
+
+@keyframes idle-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes speak-pulse {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+@keyframes listen-breathe {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}

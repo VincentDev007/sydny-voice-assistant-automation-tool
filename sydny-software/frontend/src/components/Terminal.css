@@ -1,0 +1,27 @@
+.terminal {
+  width: 100%;
+  max-width: 500px;
+  height: 180px;
+  overflow-y: auto;
+  border: 1px solid #646464;
+  padding: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+}
+
+.terminal-message {
+  color: #00ff00;
+  margin: 2px 0;
+}
+
+.terminal-message-user {
+  color: #ffffff;
+}
+
+.terminal-message-sydny {
+  color: #00ff00;
+}
+
+.terminal-message-system {
+  color: #888888;
+}

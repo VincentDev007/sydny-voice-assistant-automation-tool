@@ -1,16 +1,18 @@
 """
 Voice Routes
 Endpoints for voice transcription and command processing.
-Transcribe and command parser connect on Day 4.
 """
 
 from fastapi import APIRouter, UploadFile, File
 from pydantic import BaseModel
+import tempfile
+import os
+from services.voice_service import transcribe_audio, speak
+from services.command_parser import parse_command
 
 router = APIRouter()
 
 
-# Request schema for text-based endpoints
 class TextRequest(BaseModel):
     text: str
 
@@ -20,12 +22,18 @@ class TextRequest(BaseModel):
 # ============================================================
 
 @router.post("/voice/transcribe")
-async def transcribe_audio(file: UploadFile = File(...)):
+async def transcribe(file: UploadFile = File(...)):
     """Receive audio file, return transcript text."""
-    # Day 4: Whisper processes the audio here
-    return {
-        "transcript": "placeholder - whisper not connected"
-    }
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    try:
+        content = await file.read()
+        temp.write(content)
+        temp.close()
+
+        transcript = transcribe_audio(temp.name)
+        return {"transcript": transcript}
+    finally:
+        os.unlink(temp.name)
 
 
 # ============================================================
@@ -34,12 +42,13 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
 @router.post("/voice/command")
 async def process_command(request: TextRequest):
-    """Receive text, parse it into a command, execute it."""
-    # Day 4: Command parser processes request.text here
+    """Receive text, parse it into a command."""
+    result = parse_command(request.text)
     return {
         "text": request.text,
-        "action": "none",
-        "message": "command parser not connected"
+        "intent": result["intent"],
+        "target": result["target"],
+        "needs_confirm": result["needs_confirm"]
     }
 
 
@@ -49,10 +58,11 @@ async def process_command(request: TextRequest):
 
 @router.post("/voice/text")
 async def text_input(request: TextRequest):
-    """Receive typed text, skip transcription, go straight to command processing."""
-    # Day 4: Same as command, but this is the user-facing shortcut
+    """Receive typed text, parse and return command."""
+    result = parse_command(request.text)
     return {
         "text": request.text,
-        "action": "none",
-        "message": "command parser not connected"
+        "intent": result["intent"],
+        "target": result["target"],
+        "needs_confirm": result["needs_confirm"]
     }
