@@ -15,6 +15,12 @@ interface Message {
   type: "user" | "sydny" | "system";
 }
 
+interface ParsedCommand {
+  intent: string;
+  target: string | null;
+  needs_confirm: boolean;
+}
+
 interface AppState {
   // Voice status
   status: "idle" | "listening" | "speaking";
@@ -36,6 +42,14 @@ interface AppState {
   confirmAction: (() => void) | null;
   showConfirm: (message: string, action: () => void) => void;
   hideConfirm: () => void;
+
+  // Safe mode
+  safeMode: boolean;
+  toggleSafeMode: () => void;
+
+  // Pending command from voice
+  pendingCommand: ParsedCommand | null;
+  setPendingCommand: (cmd: ParsedCommand | null) => void;
 
   // Send text command
   sendTextCommand: (text: string) => Promise<void>;
@@ -77,19 +91,28 @@ const useStore = create<AppState>((set, get) => ({
     set({ confirmMessage: message, confirmAction: action }),
   hideConfirm: () => set({ confirmMessage: null, confirmAction: null }),
 
+  // Safe mode
+  safeMode: true,
+  toggleSafeMode: () => set((state) => ({ safeMode: !state.safeMode })),
+
+  // Pending command from voice
+  pendingCommand: null,
+  setPendingCommand: (cmd) => set({ pendingCommand: cmd }),
+
   // Send text command
   sendTextCommand: async (text) => {
-    const { addMessage } = get();
+    const { addMessage, setPendingCommand } = get();
     addMessage(text, "user");
 
     const result = await api.sendText(text);
 
     if (result.intent === null) {
-      addMessage(`You said: ${text}`, "sydny");
+      addMessage(`I heard you, but I don't know how to do that.`, "sydny");
       return;
     }
 
     addMessage(`Command: ${result.intent}${result.target ? ` → ${result.target}` : ""}`, "system");
+    setPendingCommand(result);
   },
 }));
 

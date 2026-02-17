@@ -66,3 +66,14 @@ async def text_input(request: TextRequest):
         "target": result["target"],
         "needs_confirm": result["needs_confirm"]
     }
+
+
+# ============================================================
+# SPEAK (TTS)
+# ============================================================
+
+@router.post("/voice/speak")
+async def speak_text(request: TextRequest):
+    """Speak text out loud using native OS TTS."""
+    speak(request.text)
+    return {"status": "ok", "text": request.text}

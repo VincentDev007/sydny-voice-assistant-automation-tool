@@ -75,6 +75,15 @@ export async function sendText(text: string) {
   return res.json();
 }
 
+export async function speakText(text: string) {
+  const res = await fetch(`${API_URL}/voice/speak`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+  return res.json();
+}
+
 // ============================================================
 // SYSTEM
 // ============================================================

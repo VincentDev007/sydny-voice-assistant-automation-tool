@@ -9,7 +9,7 @@ import subprocess
 from platform_utils import CURRENT_PLATFORM
 
 # Load Whisper model once at startup (base model ~140MB)
-model = whisper.load_model("base")
+model = whisper.load_model("small")
 
 
 def transcribe_audio(file_path: str) -> str:
