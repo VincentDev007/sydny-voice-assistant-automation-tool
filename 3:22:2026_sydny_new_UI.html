@@ -1,0 +1,253 @@
+
+<style>
+  @keyframes breatheDim  { 0%,100%{transform:scale(1);opacity:.32} 50%{transform:scale(1.03);opacity:.52} }
+  @keyframes breatheSlow { 0%,100%{transform:scale(1);opacity:.55} 50%{transform:scale(1.05);opacity:.78} }
+  @keyframes breatheFull { 0%,100%{transform:scale(1);opacity:.85} 50%{transform:scale(1.09);opacity:1} }
+  @keyframes breatheCalm { 0%,100%{transform:scale(1);opacity:.62} 50%{transform:scale(1.04);opacity:.80} }
+  @keyframes thinkPulse  { 0%,100%{transform:scale(1);opacity:.58} 33%{transform:scale(1.11);opacity:.92} 66%{transform:scale(1.04);opacity:.72} }
+  @keyframes wakeFlash   { 0%{transform:scale(1);opacity:.5} 15%{transform:scale(1.18);opacity:1} 40%{transform:scale(1.06);opacity:.96} 100%{transform:scale(1.06);opacity:.96} }
+  @keyframes shockwave   { 0%{transform:scale(1);opacity:.75;border-width:2px} 100%{transform:scale(2.3);opacity:0;border-width:.5px} }
+  @keyframes shockwave2  { 0%{transform:scale(1);opacity:.45;border-width:1px} 100%{transform:scale(2.0);opacity:0;border-width:.5px} }
+  @keyframes wakeRing    { 0%,100%{opacity:.15} 20%{opacity:.65} 60%{opacity:.25} }
+  @keyframes softPulse   { 0%,100%{opacity:.15} 50%{opacity:.35} }
+  @keyframes softPulse2  { 0%,100%{opacity:.07} 50%{opacity:.18} }
+  @keyframes thinkRing   { 0%,100%{opacity:.07} 50%{opacity:.30} }
+  @keyframes ringExpand  { 0%{transform:scale(1);opacity:.5}  100%{transform:scale(1.75);opacity:0} }
+  @keyframes ringExpand2 { 0%{transform:scale(1);opacity:.28} 100%{transform:scale(1.75);opacity:0} }
+  @keyframes barWave     { 0%,100%{transform:scaleY(.12)} 50%{transform:scaleY(1)} }
+  @keyframes fadein      { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:translateY(0)} }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  .page{padding:24px 18px;display:flex;flex-wrap:wrap;gap:18px;font-family:sans-serif;align-items:flex-start}
+  .col{display:flex;flex-direction:column;gap:7px}
+  .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(130,90,50,.45)}
+  .sublbl{font-size:9px;letter-spacing:.07em;color:rgba(150,100,50,.3);font-style:italic}
+
+  .widget{
+    width:200px;height:220px;
+    background:#1e1810;border-radius:20px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:20px;gap:0;
+    position:relative;overflow:hidden;flex-shrink:0;
+  }
+  .widget::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 90% 55% at 50% 32%, rgba(210,90,20,.11) 0%, transparent 70%);
+  }
+
+  .branding{display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;z-index:1;margin-bottom:14px}
+  .brand-name{font-size:10px;letter-spacing:.38em;text-transform:uppercase;font-weight:400}
+  .brand-line{width:18px;height:1px;background:rgba(200,120,50,.18)}
+
+  .orb-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:90px;height:90px;flex-shrink:0}
+  .orb{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 38% 36%,#f09060 0%,#c84010 48%,#7a1a00 100%);position:relative;z-index:1}
+  .orb-ring {position:absolute;width:78px;height:78px;border-radius:50%;border:1px solid rgba(210,95,30,.25)}
+  .orb-ring2{position:absolute;width:96px;height:96px;border-radius:50%;border:1px solid rgba(210,95,30,.12)}
+  .ripple   {position:absolute;width:58px;height:58px;border-radius:50%;border:1px solid rgba(210,95,30,.55);z-index:0}
+  .ripple2  {position:absolute;width:58px;height:58px;border-radius:50%;border:1px solid rgba(210,95,30,.3);z-index:0}
+  .shock    {position:absolute;width:58px;height:58px;border-radius:50%;border:2px solid rgba(230,120,40,.72);z-index:0}
+  .shock2   {position:absolute;width:58px;height:58px;border-radius:50%;border:1px solid rgba(210,100,35,.45);z-index:0}
+
+  .bottom{height:36px;display:flex;align-items:center;justify-content:center;margin-top:12px;width:100%}
+
+  .waveform{display:flex;align-items:center;justify-content:center;gap:2px;height:26px;width:100%}
+  .bar{width:2px;border-radius:1px;transform-origin:center}
+  .bar.wave{animation:barWave var(--d) ease-in-out infinite var(--dl)}
+
+  .status{font-size:9px;letter-spacing:.16em;text-transform:uppercase;text-align:center}
+
+  .confirm-inner{display:flex;flex-direction:column;align-items:center;gap:9px;animation:fadein .3s ease;width:100%}
+  .confirm-prompt{font-size:11px;color:rgba(220,175,115,.52);text-align:center;line-height:1.5}
+  .confirm-btns{display:flex;gap:10px}
+  .cbtn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(180,100,40,.25);background:transparent}
+  .cbtn.yes{border-color:rgba(200,120,50,.55);background:rgba(190,75,15,.1)}
+  .cbtn svg{width:11px;height:11px}
+
+  .replay-btn{font-size:10px;letter-spacing:.07em;background:transparent;border:1px solid rgba(180,110,40,.22);color:rgba(200,140,70,.55);padding:4px 12px;border-radius:10px;cursor:pointer;font-family:sans-serif}
+
+  /* ── 1. IDLE ── */
+  .mode-idle .orb      { animation:breatheDim 5.5s ease-in-out infinite }
+  .mode-idle .orb-ring { animation:softPulse  5.5s ease-in-out infinite }
+  .mode-idle .orb-ring2{ animation:softPulse2 5.5s ease-in-out infinite .8s }
+  .mode-idle .brand-name{ color:rgba(200,130,60,.25) }
+  .mode-idle .status   { color:rgba(160,105,50,.3) }
+
+  /* ── 2. WAKE ── */
+  .mode-wake .orb      { animation:wakeFlash 1s ease-out forwards }
+  .mode-wake .orb-ring { animation:wakeRing  1s ease-out forwards }
+  .mode-wake .orb-ring2{ animation:softPulse2 3.5s ease-in-out infinite .8s }
+  .mode-wake .shock    { animation:shockwave  .9s ease-out forwards }
+  .mode-wake .shock2   { animation:shockwave2 .9s ease-out .15s forwards }
+  .mode-wake .brand-name{ color:rgba(230,160,75,.72) }
+
+  /* ── 3. USER SPEAKING ── */
+  .mode-user .orb      { animation:breatheSlow 4s ease-in-out infinite }
+  .mode-user .orb-ring { animation:softPulse   3.5s ease-in-out infinite }
+  .mode-user .orb-ring2{ animation:softPulse2  3.5s ease-in-out infinite .8s }
+  .mode-user .ripple   { animation:ringExpand  1.8s ease-out infinite }
+  .mode-user .ripple2  { animation:ringExpand2 1.8s ease-out infinite .65s }
+  .mode-user .brand-name{ color:rgba(200,130,60,.38) }
+  .mode-user .status   { color:rgba(180,120,55,.45) }
+
+  /* ── 4. THINKING ── */
+  .mode-think .orb      { animation:thinkPulse 2.4s ease-in-out infinite }
+  .mode-think .orb-ring { animation:thinkRing  2.4s ease-in-out infinite }
+  .mode-think .orb-ring2{ animation:thinkRing  2.4s ease-in-out infinite .5s }
+  .mode-think .brand-name{ color:rgba(200,130,60,.38) }
+  .mode-think .status   { color:rgba(180,120,55,.45) }
+
+  /* ── 5. SYDNY SPEAKING ── */
+  .mode-speak .orb      { animation:breatheFull 2.5s ease-in-out infinite }
+  .mode-speak .orb-ring { animation:softPulse   2.5s ease-in-out infinite }
+  .mode-speak .orb-ring2{ animation:softPulse2  2.5s ease-in-out infinite .5s }
+  .mode-speak .brand-name{ color:rgba(225,150,70,.58) }
+  .mode-speak .status   { color:rgba(205,148,72,.65) }
+
+  /* ── 6. CONFIRMATION ── */
+  .mode-confirm .orb      { animation:breatheCalm 4.5s ease-in-out infinite }
+  .mode-confirm .orb-ring { animation:softPulse   4.5s ease-in-out infinite }
+  .mode-confirm .orb-ring2{ animation:softPulse2  4.5s ease-in-out infinite .8s }
+  .mode-confirm .brand-name{ color:rgba(200,130,60,.38) }
+</style>
+
+<div class="page">
+
+  <!-- 1. IDLE -->
+  <div class="col">
+    <div class="lbl">Idle</div>
+    <div class="sublbl">waiting for wake word</div>
+    <div class="widget mode-idle">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom"><div class="status">waiting</div></div>
+    </div>
+  </div>
+
+  <!-- 2. WAKE -->
+  <div class="col">
+    <div class="lbl">Wake word</div>
+    <div class="sublbl">hey sydny detected</div>
+    <div class="widget mode-wake" id="wake-widget">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="shock"></div>
+        <div class="shock2"></div>
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom"></div>
+    </div>
+    <button class="replay-btn" onclick="replayWake()">replay burst</button>
+  </div>
+
+  <!-- 3. USER SPEAKING -->
+  <div class="col">
+    <div class="lbl">User speaking</div>
+    <div class="sublbl">listening to command</div>
+    <div class="widget mode-user">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="ripple"></div>
+        <div class="ripple2"></div>
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom"><div class="waveform" id="wave-user"></div></div>
+    </div>
+  </div>
+
+  <!-- 4. THINKING -->
+  <div class="col">
+    <div class="lbl">Thinking</div>
+    <div class="sublbl">ollama processing</div>
+    <div class="widget mode-think">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom"><div class="status">thinking</div></div>
+    </div>
+  </div>
+
+  <!-- 5. SYDNY SPEAKING -->
+  <div class="col">
+    <div class="lbl">Sydny speaking</div>
+    <div class="sublbl">responding</div>
+    <div class="widget mode-speak">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom"><div class="waveform" id="wave-speak"></div></div>
+    </div>
+  </div>
+
+  <!-- 6. CONFIRMATION -->
+  <div class="col">
+    <div class="lbl">Confirmation</div>
+    <div class="sublbl">waiting for yes / no</div>
+    <div class="widget mode-confirm">
+      <div class="branding"><div class="brand-name">Sydny</div><div class="brand-line"></div></div>
+      <div class="orb-wrap">
+        <div class="orb-ring2"></div>
+        <div class="orb-ring"></div>
+        <div class="orb"></div>
+      </div>
+      <div class="bottom">
+        <div class="confirm-inner">
+          <div class="confirm-prompt">shut down?</div>
+          <div class="confirm-btns">
+            <div class="cbtn">
+              <svg viewBox="0 0 14 14" fill="none" stroke="rgba(200,140,80,.5)" stroke-width="1.5" stroke-linecap="round">
+                <line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/>
+              </svg>
+            </div>
+            <div class="cbtn yes">
+              <svg viewBox="0 0 14 14" fill="none" stroke="rgba(230,170,100,.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="2,7 6,11 12,3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function makeBars(id, count, maxH, color) {
+    const wf = document.getElementById(id);
+    if (!wf) return;
+    for (let i = 0; i < count; i++) {
+      const b = document.createElement('div');
+      const dist = Math.abs(i - count/2) / (count/2);
+      const peak = Math.max(.15, 1 - dist * .6);
+      b.className = 'bar wave';
+      b.style.height = Math.round(3 + peak * maxH) + 'px';
+      b.style.background = color;
+      b.style.setProperty('--d', (.45 + Math.random()*.4).toFixed(2)+'s');
+      b.style.setProperty('--dl', (i*.032).toFixed(3)+'s');
+      wf.appendChild(b);
+    }
+  }
+  makeBars('wave-user',  18, 12, 'rgba(175,88,28,.4)');
+  makeBars('wave-speak', 18, 26, '#c86030');
+
+  function replayWake() {
+    const w = document.getElementById('wake-widget');
+    w.classList.remove('mode-wake');
+    void w.offsetWidth;
+    w.classList.add('mode-wake');
+  }
+</script>
