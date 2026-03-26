@@ -1,35 +1,13 @@
 """
 Voice Service — services/voice_service.py
 ==========================================
-The voice engine of SYDNY.
-Handles both directions of voice:
-  STT (Speech-to-Text): Whisper converts audio → text
-  TTS (Text-to-Speech): Native OS commands convert text → speech
-
-WHAT IT DOES:
-  transcribe_audio() → takes a .wav file path, returns the transcribed text
-  speak()           → takes text, speaks it out loud using the OS TTS engine
-
-WHY WHISPER (LOCAL)?
-  OpenAI's Whisper runs entirely on your machine — no API key, no internet needed.
-  The "small" model (~460MB) balances accuracy and speed.
-  Available models: tiny (39MB) < base (140MB) < small (460MB) < medium (1.5GB) < large (3GB)
-  We upgraded from "base" to "small" on Day 5 for better recognition accuracy.
-
-WHY NATIVE TTS?
-  Each OS has a built-in text-to-speech engine:
-    Mac:     `say` command — uses the system voice
-    Windows: PowerShell's SpeechSynthesizer — .NET built-in
-    Linux:   `espeak` — open-source TTS engine
-  No extra libraries or API keys needed.
-
-HOW IT CONNECTS:
-  routes/voice.py calls transcribe_audio() and speak()
-  App.tsx's sydnySay() → api.speakText() → /api/voice/speak → speak() → macOS `say`
+Handles both directions of voice for Sydny:
+  STT: faster-whisper converts audio → text
+  TTS: native OS commands convert text → speech
 """
 
 # whisper — OpenAI's speech recognition model (runs locally, no API key needed)
-import whisper
+from faster_whisper import WhisperModel
 
 # subprocess — for running shell commands (the `say` command for TTS)
 import subprocess
@@ -41,19 +19,10 @@ from utils.platform_utils import CURRENT_PLATFORM
 # ============================================================
 # LOAD WHISPER MODEL (runs once at server startup)
 # ============================================================
-# This loads the Whisper "small" model into memory.
-# It only runs once — when the backend starts (when this module is first imported).
-# The model stays in memory for the lifetime of the server.
-#
-# Model sizes:
-#   "tiny"   → ~39MB,  fastest but least accurate
-#   "base"   → ~140MB, decent for clear speech
-#   "small"  → ~460MB, good balance of speed and accuracy ← WE USE THIS
-#   "medium" → ~1.5GB, very accurate but slower
-#   "large"  → ~3GB,   most accurate but requires lots of RAM
-#
-# The model is cached in ~/.cache/whisper/ after first download.
-model = whisper.load_model("small")
+# faster-whisper uses CTranslate2 C++ backend — 4x faster than openai-whisper
+# device="cpu" — runs on CPU (no GPU needed)
+# compute_type="int8" — quantized model, faster and uses less memory
+model = WhisperModel("small", device="cpu", compute_type="int8")
 
 
 def transcribe_audio(file_path: str) -> str:
@@ -77,8 +46,8 @@ def transcribe_audio(file_path: str) -> str:
     Returns:
         The transcribed text as a string
     """
-    result = model.transcribe(file_path)
-    return result["text"].strip()
+    segments, _ = model.transcribe(file_path)
+    return " ".join(segment.text for segment in segments).strip()
 
 
 def speak(text: str):

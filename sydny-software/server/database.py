@@ -1,35 +1,3 @@
-"""
-Database Configuration — database.py
-======================================
-Sets up the connection between Python and the SQLite database.
-
-WHAT IT DOES:
-1. Creates a "database engine" — the connection to the SQLite file (sydny.db)
-2. Creates a "session factory" — generates sessions for each API request
-3. Defines a "Base" class that all database models (like Task) must inherit from
-4. Provides a get_db() function that FastAPI uses to inject database sessions into routes
-
-KEY CONCEPTS:
-  - Engine:  The connection to the database. Think of it as the phone line.
-  - Session: A conversation with the database. Each API request gets its own session.
-  - Base:    The parent class for all models. SQLAlchemy uses this to track all tables.
-
-WHY SQLite?
-  SQLite stores everything in a single file (sydny.db). No separate database server needed.
-  Perfect for a local desktop app like SYDNY. The file lives in the backend/ folder.
-
-WHY check_same_thread=False?
-  SQLite normally only allows access from the thread that created the connection.
-  FastAPI is async (multiple threads), so we need to disable this check.
-  This is safe because SQLAlchemy manages its own thread safety via sessions.
-
-WHY get_db() as a generator (yield)?
-  FastAPI's "Depends" system calls get_db() for each request.
-  The `yield` pauses the function, gives the session to the route, then
-  the `finally` block runs after the route is done — closing the session.
-  This guarantees every session is properly closed, even if an error occurs.
-"""
-
 # create_engine — creates the database connection
 from sqlalchemy import create_engine
 

@@ -199,3 +199,28 @@ async def delete_file(request: FileRequest):
         return {"message": result}
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+def execute_intent(intent: str, target: str = None):
+    if intent == "open-app":
+        open_app(target)
+    elif intent == "close-app":
+        close_app(target)
+    elif intent == "volume":
+        set_volume(int(target))
+    elif intent == "mute":
+        mute()
+    elif intent == "unmute":
+        unmute()
+    elif intent == "shutdown":
+        shutdown_system()
+    elif intent == "restart":
+        restart_system()
+    elif intent == "sleep":
+        sleep_system()
+    elif intent == "open-file":
+        open_file(target)
+    elif intent == "delete-file":
+        delete_file(target)
+    elif intent == "search-file":
+        search_file(target)
