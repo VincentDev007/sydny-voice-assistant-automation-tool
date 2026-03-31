@@ -1,3 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@keyframes breatheDim  { 0%,100%{transform:scale(1);opacity:.32} 50%{transform:scale(1.03);opacity:.52} }
+@keyframes breatheSlow { 0%,100%{transform:scale(1);opacity:.55} 50%{transform:scale(1.05);opacity:.78} }
+@keyframes breatheFull { 0%,100%{transform:scale(1);opacity:.85} 50%{transform:scale(1.09);opacity:1} }
+@keyframes breatheCalm { 0%,100%{transform:scale(1);opacity:.62} 50%{transform:scale(1.04);opacity:.80} }
+@keyframes thinkPulse  { 0%,100%{transform:scale(1);opacity:.58} 33%{transform:scale(1.11);opacity:.92} 66%{transform:scale(1.04);opacity:.72} }
+@keyframes wakeFlash   { 0%{transform:scale(1);opacity:.5} 15%{transform:scale(1.18);opacity:1} 40%{transform:scale(1.06);opacity:.96} 100%{transform:scale(1.06);opacity:.96} }
+@keyframes shockwave   { 0%{transform:scale(1);opacity:.75;border-width:2px} 100%{transform:scale(2.3);opacity:0;border-width:.5px} }
+@keyframes shockwave2  { 0%{transform:scale(1);opacity:.45;border-width:1px} 100%{transform:scale(2.0);opacity:0;border-width:.5px} }
+@keyframes softPulse   { 0%,100%{opacity:.15} 50%{opacity:.35} }
+@keyframes softPulse2  { 0%,100%{opacity:.07} 50%{opacity:.18} }
+@keyframes thinkRing   { 0%,100%{opacity:.07} 50%{opacity:.30} }
+@keyframes ringExpand  { 0%{transform:scale(1);opacity:.5}  100%{transform:scale(1.75);opacity:0} }
+@keyframes ringExpand2 { 0%{transform:scale(1);opacity:.28} 100%{transform:scale(1.75);opacity:0} }
+@keyframes barWave     { 0%,100%{transform:scaleY(.12)} 50%{transform:scaleY(1)} }
