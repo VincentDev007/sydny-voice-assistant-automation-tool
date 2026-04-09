@@ -6,12 +6,12 @@ interface StatusLabelProps {
 
 function StatusLabel({ state }: StatusLabelProps) {
   const labels: Record<OrbState, string> = {
-    idle:     "",
-    wake:     "Hey...",
-    user:     "Listening...",
+    idle: "",
+    wake: "Hey...",
+    user: "Listening...",
     thinking: "Thinking...",
-    speak:    "Speaking...",
-    confirm:  "Are you sure?",
+    speak: "Speaking...",
+    confirm: "Are you sure?",
   };
 
   return (

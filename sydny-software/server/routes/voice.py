@@ -31,6 +31,9 @@ async def voice_command(audio: UploadFile = File(...), db: Session = Depends(get
             "response": result["response"]
         }
 
+    if result.get("intent"):
+        execute_intent(result["intent"], result.get("target"))
+
     speak(result["response"])
 
     return {"status": "ok", "end_session": result.get("end_session", False)}

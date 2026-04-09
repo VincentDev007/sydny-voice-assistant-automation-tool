@@ -72,8 +72,6 @@ export default function useVoice() {
         stream.getTracks().forEach((track) => track.stop());
 
         const blob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType });
-        console.log("[useVoice] recorded blob:", blob.size, "bytes, type:", blob.type);
-
         setOrbState("thinking");
 
         try {

@@ -6,30 +6,30 @@ interface OrbProps {
 }
 
 const orbAnim: Record<OrbState, string> = {
-  idle:     "breatheDim 5.5s ease-in-out infinite",
-  wake:     "wakeFlash 1s ease-out forwards",
-  user:     "breatheSlow 4s ease-in-out infinite",
+  idle: "breatheDim 5.5s ease-in-out infinite",
+  wake: "wakeFlash 1s ease-out forwards",
+  user: "breatheSlow 4s ease-in-out infinite",
   thinking: "thinkPulse 2.4s ease-in-out infinite",
-  speak:    "breatheFull 2.5s ease-in-out infinite",
-  confirm:  "breatheCalm 4.5s ease-in-out infinite",
+  speak: "breatheFull 2.5s ease-in-out infinite",
+  confirm: "breatheCalm 4.5s ease-in-out infinite",
 };
 
 const ring1Anim: Record<OrbState, string> = {
-  idle:     "softPulse 5.5s ease-in-out infinite",
-  wake:     "softPulse 1s ease-out forwards",
-  user:     "softPulse 3.5s ease-in-out infinite",
+  idle: "softPulse 5.5s ease-in-out infinite",
+  wake: "softPulse 1s ease-out forwards",
+  user: "softPulse 3.5s ease-in-out infinite",
   thinking: "thinkRing 2.4s ease-in-out infinite",
-  speak:    "softPulse 2.5s ease-in-out infinite",
-  confirm:  "softPulse 4.5s ease-in-out infinite",
+  speak: "softPulse 2.5s ease-in-out infinite",
+  confirm: "softPulse 4.5s ease-in-out infinite",
 };
 
 const ring2Anim: Record<OrbState, string> = {
-  idle:     "softPulse2 5.5s ease-in-out infinite .8s",
-  wake:     "softPulse2 3.5s ease-in-out infinite .8s",
-  user:     "softPulse2 3.5s ease-in-out infinite .8s",
+  idle: "softPulse2 5.5s ease-in-out infinite .8s",
+  wake: "softPulse2 3.5s ease-in-out infinite .8s",
+  user: "softPulse2 3.5s ease-in-out infinite .8s",
   thinking: "thinkRing 2.4s ease-in-out infinite .5s",
-  speak:    "softPulse2 2.5s ease-in-out infinite .5s",
-  confirm:  "softPulse2 4.5s ease-in-out infinite .8s",
+  speak: "softPulse2 2.5s ease-in-out infinite .5s",
+  confirm: "softPulse2 4.5s ease-in-out infinite .8s",
 };
 
 function Waveform({ color, maxH, count = 18 }: { color: string; maxH: number; count?: number }) {
