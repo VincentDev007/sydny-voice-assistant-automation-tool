@@ -1,22 +1,27 @@
 # Sydny
 
-A local voice assistant and automation tool built with Tauri.
+![version](https://img.shields.io/badge/version-0.5.0-blue)
+
+A local-first voice assistant and automation tool built with Tauri.
 
 ## Features
-- Voice recognition and natural language command parsing
-- Task management
+- Wake word detection
+- Voice recognition with Whisper
+- Natural language intent parsing via Ollama
+- Memory and reasoning engine
 - System control and automation
-- Real-time terminal output
-- HAL eye visual interface
-- Cross-platform support (macOS)
+- Ember Orb visual interface
+- Real-time voice status
 
-## Getting Started
+## Download
+Get the latest release [here](https://github.com/your-username/sydny/releases).
 
+## Running from Source
 1. Clone the repo
 2. Set up the backend:
    ```
    cd sydny-software/server
-   pip install -r backend_requirements.txt
+   pip install -r requirements.txt
    ```
 3. Set up the frontend:
    ```
@@ -35,3 +40,4 @@ A local voice assistant and automation tool built with Tauri.
 - TypeScript
 - Python (FastAPI)
 - SQLite
+- Ollama
