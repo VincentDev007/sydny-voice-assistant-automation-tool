@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: pip install -r sydny-software/server/backend_requirements.txt
+      - run: pip install -r sydny-software/docs/backend_requirements.txt
 
   build-frontend:
     runs-on: ubuntu-latest
