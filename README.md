@@ -19,8 +19,9 @@ Get the latest release [here](https://github.com/your-username/sydny/releases).
 ## Setup
 1. Open the downloaded `.dmg` and drag Sydny to your Applications folder
 2. Install [Ollama](https://ollama.com/download)
-3. Download the `sydny.Modelfile` from the release page, then create the model:
+3. Create the Sydny model:
    ```
+   curl -O https://raw.githubusercontent.com/your-username/sydny/main/sydny-software/server/engine/sydny.Modelfile
    ollama create sydny -f sydny.Modelfile
    ```
 4. Launch Sydny from Applications
