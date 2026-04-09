@@ -1,17 +1,17 @@
 from pydantic import BaseModel
 
 class VolumeRequest(BaseModel):
-    level: int                    # Volume level (0-100)
+    level: int
 
 class AppRequest(BaseModel):
-    app_name: str                 # Application name (e.g., "Safari", "Spotify")
+    app_name: str
 
 class FileRequest(BaseModel):
-    filepath: str                 # Full path to a file
+    filepath: str
 
 class MoveFileRequest(BaseModel):
-    source: str                   # Source file path
-    destination: str              # Destination file path
+    source: str
+    destination: str
 
 class SearchRequest(BaseModel):
-    filename: str                 # Filename to search for
+    filename: str

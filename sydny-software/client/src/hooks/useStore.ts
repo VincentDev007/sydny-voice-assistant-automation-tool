@@ -9,16 +9,13 @@ interface ConfirmPayload {
 }
 
 interface AppState {
-  // orb state
   orbState: OrbState;
   setOrbState: (state: OrbState) => void;
 
-  // confirmation dialog
   confirmPayload: ConfirmPayload | null;
   showConfirm: (payload: ConfirmPayload) => void;
   hideConfirm: () => void;
 
-  // session
   sessionActive: boolean;
   setSessionActive: (active: boolean) => void;
 }

@@ -94,11 +94,9 @@ export default function Orb({ state }: OrbProps) {
   return (
     <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: wrapSize, height: wrapSize, flexShrink: 0 }}>
 
-      {/* Outer rings */}
       <div style={ringStyle(96, ring2Anim[state], "rgba(210,95,30,.12)")} />
       <div style={ringStyle(78, ring1Anim[state], "rgba(210,95,30,.25)")} />
 
-      {/* Wake shockwave rings */}
       {state === "wake" && (
         <>
           <div style={{ ...shockStyle("2px solid rgba(230,120,40,.72)"), zIndex: 0 }} />
@@ -106,7 +104,6 @@ export default function Orb({ state }: OrbProps) {
         </>
       )}
 
-      {/* User ripples */}
       {state === "user" && (
         <>
           <div style={rippleStyle("ringExpand 1.8s ease-out infinite")} />
@@ -114,7 +111,6 @@ export default function Orb({ state }: OrbProps) {
         </>
       )}
 
-      {/* The orb */}
       <div style={{
         width: orbSize,
         height: orbSize,
@@ -125,7 +121,6 @@ export default function Orb({ state }: OrbProps) {
         animation: orbAnim[state],
       }} />
 
-      {/* Waveform — shown below orb during user/speak */}
       {state === "user" && (
         <div style={{ position: "absolute", bottom: -32, width: "100%" }}>
           <Waveform color="rgba(175,88,28,.4)" maxH={12} />

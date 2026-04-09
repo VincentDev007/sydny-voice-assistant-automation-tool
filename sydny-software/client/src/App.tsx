@@ -31,15 +31,12 @@ function App() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-6">
 
-      {/* Brand name */}
       <p className="text-orange-700 text-xs font-mono tracking-[6px]">SYDNY</p>
 
-      {/* Orb — click to start/stop recording */}
       <div onClick={toggleRecording} className="cursor-pointer">
         <Orb state={orbState} />
       </div>
 
-      {/* Confirmation dialog */}
       {confirmPayload && (
         <ConfirmDialog
           message={confirmPayload.response}

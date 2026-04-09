@@ -2,7 +2,6 @@ import { useRef, useCallback } from "react";
 import useStore from "./useStore";
 import * as api from "../services/api";
 
-// Convert browser WebM audio to WAV (faster-whisper requires decodable audio)
 async function blobToWav(blob: Blob): Promise<Blob> {
   const arrayBuffer = await blob.arrayBuffer();
   const audioContext = new AudioContext({ sampleRate: 16000 });
@@ -47,6 +46,7 @@ export default function useVoice() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
+
   const startRecording = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -72,6 +72,7 @@ export default function useVoice() {
         stream.getTracks().forEach((track) => track.stop());
 
         const blob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType });
+        console.log("[useVoice] recorded blob:", blob.size, "bytes, type:", blob.type);
 
         setOrbState("thinking");
 
