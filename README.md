@@ -16,6 +16,15 @@ A local-first voice assistant and automation tool built with Tauri.
 ## Download
 Get the latest release [here](https://github.com/your-username/sydny/releases).
 
+## Setup
+1. Open the downloaded `.dmg` and drag Sydny to your Applications folder
+2. Install [Ollama](https://ollama.com/download)
+3. Download the `sydny.Modelfile` from the release page, then create the model:
+   ```
+   ollama create sydny -f sydny.Modelfile
+   ```
+4. Launch Sydny from Applications
+
 ## Running from Source
 1. Clone the repo
 2. Set up the backend:
