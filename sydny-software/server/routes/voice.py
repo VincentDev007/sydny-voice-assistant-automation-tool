@@ -1,5 +1,6 @@
 import os
 import tempfile
+import asyncio
 from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 
@@ -34,7 +35,7 @@ async def voice_command(audio: UploadFile = File(...), db: Session = Depends(get
     if result.get("intent"):
         execute_intent(result["intent"], result.get("target"))
 
-    speak(result["response"])
+    asyncio.create_task(asyncio.to_thread(speak, result["response"]))
 
     return {"status": "ok", "end_session": result.get("end_session", False)}
 
@@ -42,5 +43,5 @@ async def voice_command(audio: UploadFile = File(...), db: Session = Depends(get
 @router.post("/confirm")
 async def confirm_command(intent: str, target: str = None):
     execute_intent(intent, target)
-    speak("Done.")
+    asyncio.create_task(asyncio.to_thread(speak, "Done."))
     return {"status": "ok"}

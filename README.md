@@ -30,6 +30,8 @@ Get the latest release [here](https://github.com/your-username/sydny/releases).
 2. Set up the backend:
    ```
    cd sydny-software/server
+   python3 -m venv venv
+   source venv/bin/activate
    pip install -r requirements.txt
    ```
 3. Set up the frontend:
@@ -37,7 +39,11 @@ Get the latest release [here](https://github.com/your-username/sydny/releases).
    cd sydny-software/client
    npm install
    ```
-4. Start the app:
+4. Start Ollama (skip if Ollama.app is already running):
+   ```
+   ollama serve
+   ```
+5. Start the app:
    ```
    cd sydny-software
    ./dev.sh

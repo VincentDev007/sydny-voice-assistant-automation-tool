@@ -1,0 +1,49 @@
+import os
+from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs
+
+block_cipher = None
+
+a = Analysis(
+    ['run.py'],
+    pathex=['.'],
+    binaries=[
+        ('/opt/homebrew/bin/ffmpeg', '.'),  # bundle ffmpeg so faster-whisper can find it
+        *collect_dynamic_libs('ctranslate2'),
+    ],
+    datas=[
+        *collect_data_files('faster_whisper'),
+        *collect_data_files('ctranslate2'),
+    ],
+    hiddenimports=[
+        'ctranslate2',
+        'faster_whisper',
+        'uvicorn.logging',
+        'uvicorn.loops',
+        'uvicorn.loops.auto',
+        'uvicorn.protocols',
+        'uvicorn.protocols.http',
+        'uvicorn.protocols.http.auto',
+        'uvicorn.lifespan',
+        'uvicorn.lifespan.on',
+    ],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    cipher=block_cipher,
+)
+
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    name='sydny-server',
+    debug=False,
+    strip=False,
+    upx=False,
+    console=False,  # no terminal window shown to user
+    onefile=True,
+)
