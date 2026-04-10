@@ -3,6 +3,8 @@ sydny-software/client/node_modules/
 
 # Build outputs
 sydny-software/client/dist
+sydny-software/server/build/
+sydny-software/server/dist/
 release/
 
 # Python
