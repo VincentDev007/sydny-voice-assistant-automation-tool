@@ -1,13 +1,17 @@
-import os
+import shutil
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs
 
 block_cipher = None
+
+ffmpeg_path = shutil.which('ffmpeg')
+if not ffmpeg_path:
+    raise RuntimeError("ffmpeg not found. Install it with: brew install ffmpeg")
 
 a = Analysis(
     ['run.py'],
     pathex=['.'],
     binaries=[
-        ('/opt/homebrew/bin/ffmpeg', '.'),  # bundle ffmpeg so faster-whisper can find it
+        (ffmpeg_path, '.'),
         *collect_dynamic_libs('ctranslate2'),
     ],
     datas=[

@@ -23,6 +23,16 @@ fn wait_for_ollama(timeout_secs: u64) -> bool {
     false
 }
 
+fn find_ollama() -> &'static str {
+    let candidates = ["/opt/homebrew/bin/ollama", "/usr/local/bin/ollama"];
+    for path in candidates {
+        if std::path::Path::new(path).exists() {
+            return path;
+        }
+    }
+    "ollama"
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -31,7 +41,7 @@ pub fn run() {
         .setup(|app| {
             // start Ollama if it's not already running
             if !is_ollama_running() {
-                Command::new("/opt/homebrew/bin/ollama").arg("serve").spawn().ok();
+                Command::new(find_ollama()).arg("serve").spawn().ok();
                 wait_for_ollama(10);
             }
 
