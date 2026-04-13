@@ -1,8 +1,11 @@
 # Sydny
 
 ![version](https://img.shields.io/badge/version-0.5.0-blue)
+![platform](https://img.shields.io/badge/platform-macOS-lightgrey?logo=apple)
 
 A local-first voice assistant and automation tool built with Tauri.
+
+> macOS only. Windows and Linux support is not planned for this release.
 
 ## Features
 - Wake word detection

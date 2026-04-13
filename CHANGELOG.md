@@ -4,7 +4,7 @@ All notable changes to Sydny will be documented here.
 
 ## [Unreleased]
 
-## [0.5.0] - 2026-04-09
+## [0.5.0] - 2026-04-13
 ### Added
 - Engine layer with reasoning and memory system
 - Ollama integration via Sydny Modelfile
@@ -31,6 +31,9 @@ All notable changes to Sydny will be documented here.
 - PyInstaller multiprocessing explosion causing hundreds of `[Errno 48]` port binding errors
 - Ollama not auto-starting in packaged app due to missing shell PATH
 - Backend sidecar crashing on startup due to read-only `.app` bundle directory blocking database writes
+- Hardcoded Ollama Homebrew path replaced with dynamic PATH resolution
+- Platform database detection failing on certain macOS configurations
+- Legacy HAL eye color values leaking into Ember Orb styles
 
 ## [0.1.0] - 2026-03-22
 ### Added
