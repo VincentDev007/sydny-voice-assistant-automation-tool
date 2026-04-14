@@ -5,7 +5,7 @@
 
 A local-first voice assistant and automation tool built with Tauri.
 
-> macOS only. Windows and Linux support is not planned for this release.
+> macOS only (12 Monterey or later). Windows and Linux support is not planned for this release.
 
 ## Features
 - Wake word detection
