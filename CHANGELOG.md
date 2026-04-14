@@ -34,6 +34,16 @@ All notable changes to Sydny will be documented here.
 - Hardcoded Ollama Homebrew path replaced with dynamic PATH resolution
 - Platform database detection failing on certain macOS configurations
 - Legacy HAL eye color values leaking into Ember Orb styles
+- PyInstaller sidecar using windowed bootloader (`runw`) causing macOS to kill the server process after ~10 seconds — switched to console bootloader (`run`)
+- Ollama auto-start blocking Tauri `setup()` for up to 10 seconds before window appeared — moved to background thread
+- KeyError crashes when Ollama returns unexpected response structure
+- JSONDecodeError crash when Ollama returns non-JSON content
+- `int(target)` ValueError in `execute_intent` when LLM returns non-numeric volume target
+- `shutdown`, `restart`, and `sleep` returning success regardless of subprocess exit code
+- `res.json()` called without checking `res.ok` in frontend API calls
+- Unhandled intents in `execute_intent` now logged instead of silently ignored
+- `load_context` using redundant `order_by(desc).reverse()` — replaced with `order_by(asc)`
+- Removed unused `sessionActive` state and `StatusLabel` component
 
 ## [0.1.0] - 2026-03-22
 ### Added

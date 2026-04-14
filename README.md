@@ -21,12 +21,16 @@ Get the latest release [here](https://github.com/your-username/sydny/releases).
 
 ## Setup
 1. Open the downloaded `.dmg` and drag Sydny to your Applications folder
-2. Install [Ollama](https://ollama.com/download)
-3. Download `sydny.Modelfile` from the release page, then create the model:
+2. Remove the macOS quarantine flag (required since the app is not notarized):
+   ```
+   xattr -cr /Applications/Sydny.app
+   ```
+3. Install [Ollama](https://ollama.com/download)
+4. Download `sydny.Modelfile` from the release page, then create the model:
    ```
    ollama create sydny -f sydny.Modelfile
    ```
-4. Launch Sydny from Applications
+5. Launch Sydny from Applications
 
 ## Running from Source
 1. Clone the repo

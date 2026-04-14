@@ -7,6 +7,7 @@ export async function sendVoiceCommand(blob: Blob) {
     method: "POST",
     body: formData,
   });
+  if (!res.ok) throw new Error(`voice/command failed: ${res.status}`);
   return res.json();
 }
 
@@ -16,5 +17,6 @@ export async function confirmCommand(intent: string, target: string | null) {
   const res = await fetch(`${API_URL}/api/voice/confirm?${params}`, {
     method: "POST",
   });
+  if (!res.ok) throw new Error(`voice/confirm failed: ${res.status}`);
   return res.json();
 }

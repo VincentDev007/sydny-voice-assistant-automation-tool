@@ -27,15 +27,20 @@ async def voice_command(audio: UploadFile = File(...), db: Session = Depends(get
     if result.get("needs_confirm"):
         return {
             "needs_confirm": True,
-            "intent": result["intent"],
+            "intent": result.get("intent"),
             "target": result.get("target"),
-            "response": result["response"]
+            "response": result.get("response", "")
         }
 
     if result.get("intent"):
-        execute_intent(result["intent"], result.get("target"))
+        try:
+            execute_intent(result["intent"], result.get("target"))
+        except Exception as e:
+            print(f"[voice] execute_intent error: {e}")
 
-    asyncio.create_task(asyncio.to_thread(speak, result["response"]))
+    response_text = result.get("response", "")
+    if response_text:
+        asyncio.create_task(asyncio.to_thread(speak, response_text))
 
     return {"status": "ok", "end_session": result.get("end_session", False)}
 

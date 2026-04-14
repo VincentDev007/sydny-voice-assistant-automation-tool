@@ -39,11 +39,13 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_shell::init())
         .setup(|app| {
-            // start Ollama if it's not already running
-            if !is_ollama_running() {
-                Command::new(find_ollama()).arg("serve").spawn().ok();
-                wait_for_ollama(10);
-            }
+            // start Ollama in background — don't block setup
+            thread::spawn(|| {
+                if !is_ollama_running() {
+                    Command::new(find_ollama()).arg("serve").spawn().ok();
+                    wait_for_ollama(30);
+                }
+            });
 
             // start the Python backend sidecar
             app.shell().sidecar("sydny-server")?.spawn()?;

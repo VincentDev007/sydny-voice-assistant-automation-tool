@@ -48,6 +48,6 @@ exe = EXE(
     debug=False,
     strip=False,
     upx=False,
-    console=False,  # no terminal window shown to user
+    console=True,
     onefile=True,
 )

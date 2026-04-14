@@ -44,35 +44,41 @@ def unmute() -> str:
 
 def shutdown_system() -> str:
     if CURRENT_PLATFORM == "mac":
-        subprocess.run(["osascript", "-e", 'tell app "System Events" to shut down'])
+        r = subprocess.run(["osascript", "-e", 'tell app "System Events" to shut down'])
     elif CURRENT_PLATFORM == "windows":
-        subprocess.run(["shutdown", "/s", "/t", "0"])
+        r = subprocess.run(["shutdown", "/s", "/t", "0"])
     elif CURRENT_PLATFORM == "linux":
-        subprocess.run(["systemctl", "poweroff"])
+        r = subprocess.run(["systemctl", "poweroff"])
+    else:
+        return "Shutdown not supported on this platform"
 
-    return "Shutting down"
+    return "Shutting down" if r.returncode == 0 else "Shutdown command failed"
 
 
 def restart_system() -> str:
     if CURRENT_PLATFORM == "mac":
-        subprocess.run(["osascript", "-e", 'tell app "System Events" to restart'])
+        r = subprocess.run(["osascript", "-e", 'tell app "System Events" to restart'])
     elif CURRENT_PLATFORM == "windows":
-        subprocess.run(["shutdown", "/r", "/t", "0"])
+        r = subprocess.run(["shutdown", "/r", "/t", "0"])
     elif CURRENT_PLATFORM == "linux":
-        subprocess.run(["systemctl", "reboot"])
+        r = subprocess.run(["systemctl", "reboot"])
+    else:
+        return "Restart not supported on this platform"
 
-    return "Restarting"
+    return "Restarting" if r.returncode == 0 else "Restart command failed"
 
 
 def sleep_system() -> str:
     if CURRENT_PLATFORM == "mac":
-        subprocess.run(["pmset", "sleepnow"])
+        r = subprocess.run(["pmset", "sleepnow"])
     elif CURRENT_PLATFORM == "windows":
-        subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0"])
+        r = subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0"])
     elif CURRENT_PLATFORM == "linux":
-        subprocess.run(["systemctl", "suspend"])
+        r = subprocess.run(["systemctl", "suspend"])
+    else:
+        return "Sleep not supported on this platform"
 
-    return "Going to sleep"
+    return "Going to sleep" if r.returncode == 0 else "Sleep command failed"
 
 
 def open_app(app_name: str) -> str:
@@ -154,7 +160,10 @@ def execute_intent(intent: str, target: str = None):
     elif intent == "close-app":
         close_app(target)
     elif intent == "volume":
-        set_volume(int(target))
+        try:
+            set_volume(int(target))
+        except (ValueError, TypeError):
+            print(f"[execute_intent] invalid volume target: {target}")
     elif intent == "mute":
         mute()
     elif intent == "unmute":
@@ -170,4 +179,7 @@ def execute_intent(intent: str, target: str = None):
     elif intent == "delete-file":
         delete_file(target)
     elif intent == "search-file":
-        search_file(target)
+        results = search_file(target)
+        print(f"[execute_intent] search-file results: {results}")
+    else:
+        print(f"[execute_intent] unhandled intent: {intent}")

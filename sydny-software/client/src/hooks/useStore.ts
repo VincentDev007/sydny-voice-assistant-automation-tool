@@ -15,9 +15,6 @@ interface AppState {
   confirmPayload: ConfirmPayload | null;
   showConfirm: (payload: ConfirmPayload) => void;
   hideConfirm: () => void;
-
-  sessionActive: boolean;
-  setSessionActive: (active: boolean) => void;
 }
 
 const useStore = create<AppState>((set) => ({
@@ -27,9 +24,6 @@ const useStore = create<AppState>((set) => ({
   confirmPayload: null,
   showConfirm: (payload) => set({ confirmPayload: payload, orbState: "confirm" }),
   hideConfirm: () => set({ confirmPayload: null, orbState: "idle" }),
-
-  sessionActive: false,
-  setSessionActive: (sessionActive) => set({ sessionActive }),
 }));
 
 export default useStore;

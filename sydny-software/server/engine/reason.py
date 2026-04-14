@@ -18,9 +18,17 @@ async def reason(transcript: str, db: Session) -> dict:
             "stream": False
         })
 
-    raw = response.json()["message"]["content"]
+    try:
+        raw = response.json()["message"]["content"]
+    except (KeyError, ValueError) as e:
+        print(f"[reason] unexpected Ollama response: {e}\n{response.text}")
+        return {"response": "I had trouble processing that.", "intent": None}
 
     save_turn(db, role="user", content=transcript)
     save_turn(db, role="assistant", content=raw)
 
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f"[reason] failed to parse Ollama JSON: {e}\nRaw: {raw}")
+        return {"response": raw, "intent": None}

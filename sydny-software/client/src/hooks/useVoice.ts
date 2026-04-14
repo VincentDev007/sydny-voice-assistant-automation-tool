@@ -87,9 +87,6 @@ export default function useVoice() {
             return;
           }
 
-          if (result.end_session) {
-            useStore.getState().setSessionActive(false);
-          }
 
         } catch (err) {
           console.error("Voice processing error:", err);
