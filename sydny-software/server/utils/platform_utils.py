@@ -1,0 +1,37 @@
+import platform
+
+
+def get_platform() -> str:
+    system = platform.system().lower()
+
+    if system == "darwin":
+        return "mac"
+    elif system == "windows":
+        return "windows"
+    elif system == "linux":
+        return "linux"
+    else:
+        raise RuntimeError(f"Unsupported platform: {system}")
+
+
+def get_platform_info() -> dict:
+    system = get_platform()
+
+    info = {
+        "platform": system,
+        "system": platform.system(),
+        "release": platform.release(),
+        "version": platform.version(),
+        "machine": platform.machine(),
+        "processor": platform.processor(),
+    }
+
+    if system == "mac":
+        info["mac_version"] = platform.mac_ver()[0]
+    elif system == "windows":
+        info["windows_version"] = platform.win32_ver()[1]
+
+    return info
+
+
+CURRENT_PLATFORM = get_platform()
