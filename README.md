@@ -3,7 +3,7 @@
 ![version](https://img.shields.io/badge/version-0.5.0-blue)
 ![platform](https://img.shields.io/badge/platform-macOS-lightgrey?logo=apple)
 
-A local-first voice assistant and automation tool built with Tauri.
+Offline desktop AI assistant powered by Whisper and Ollama.
 
 > macOS only (12 Monterey or later). Windows and Linux support is not planned for this release.
 
@@ -17,7 +17,7 @@ A local-first voice assistant and automation tool built with Tauri.
 - Real-time voice status
 
 ## Download
-Get the latest release [here](https://github.com/your-username/sydny/releases).
+Get the latest release [here](https://github.com/VincentDev007/sydny-voice-assistant-automation-tool/releases/tag/v0.5.0).
 
 ## Setup
 1. Open the downloaded `.dmg` and drag Sydny to your Applications folder
